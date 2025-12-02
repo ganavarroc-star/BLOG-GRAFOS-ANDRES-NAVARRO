@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a los Grafos</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>🎯 Introducción a los Grafos</h1>
+        <p>Fundamentos: Nodos, Aristas y Tipos de Grafos</p>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>¿Qué es un Grafo?</h2>
+            <p>Un <span class="highlight">grafo</span> es una estructura de datos no lineal que representa un conjunto de objetos (llamados <strong>nodos</strong> o <strong>vértices</strong>) conectados entre sí por líneas (llamadas <strong>aristas</strong> o <strong>ejes</strong>). Los grafos se utilizan para modelar relaciones complejas entre elementos en diversos campos como redes sociales, mapas, sistemas de transporte y más.</p>
+
+            <h3>📌 Conceptos Clave</h3>
+            <ul>
+                <li><strong>Nodo (Vértice):</strong> Representa una entidad individual dentro del grafo. Cada nodo contiene datos y puede estar conectado a otros nodos.</li>
+                <li><strong>Arista (Eje):</strong> Es la conexión que une dos nodos. Puede ser dirigida (tiene dirección) o no dirigida.</li>
+                <li><strong>Peso (Ponderación):</strong> Un valor asociado a una arista que representa el costo, distancia o cualquier otra métrica de la conexión.</li>
+                <li><strong>Grado de un Nodo:</strong> El número de aristas conectadas a un nodo.</li>
+                <li><strong>Camino:</strong> Una secuencia de nodos donde cada nodo consecutivo está conectado por una arista.</li>
+                <li><strong>Ciclo:</strong> Un camino que comienza y termina en el mismo nodo.</li>
+            </ul>
+
+            <h2>🔄 Tipos de Grafos</h2>
+
+            <h3>1. Grafos No Dirigidos</h3>
+            <p>En los grafos no dirigidos, las aristas no tienen dirección. Si existe una arista entre A y B, se puede recorrer tanto de A a B como de B a A. Son simétricos.</p>
+            
+            <div class="diagram">
+    A --- B
+    |   / |
+    | /   |
+    D --- C --- E
+            </div>
+            <p><strong>Ejemplo:</strong> Red de amigos en redes sociales. Si A es amigo de B, entonces B también es amigo de A.</p>
+
+            <h3>2. Grafos Dirigidos</h3>
+            <p>En los grafos dirigidos, las aristas tienen dirección (se representan con flechas). Una arista de A a B no implica una arista de B a A.</p>
+            
+            <div class="diagram">
+    A → B
+    ↓   ↓
+    D ← C → E
+            </div>
+            <p><strong>Ejemplo:</strong> Sistema de transporte. Una calle de una sola dirección de A a B solo permite el movimiento en esa dirección.</p>
+
+            <h3>3. Grafos Ponderados</h3>
+            <p>Son grafos donde cada arista tiene un peso o valor numérico asociado. El peso puede representar distancia, costo, tiempo, etc.</p>
+            
+            <div class="diagram">
+    A --5-- B
+    |       |
+    3      8
+    |       |
+    D --2-- C --4-- E
+            </div>
+            <p><strong>Ejemplo:</strong> Mapa de ciudades. El peso representa la distancia o tiempo de viaje entre ciudades.</p>
+
+            <h3>4. Grafos Cíclicos vs Acíclicos</h3>
+            <ul>
+                <li><strong>Grafo Cíclico:</strong> Contiene al menos un ciclo (camino que vuelve al nodo inicial).</li>
+                <li><strong>Grafo Acíclico:</strong> No contiene ciclos. Los árboles son grafos acíclicos especiales.</li>
+            </ul>
+
+            <h3>5. Grafos Conectados vs Desconectados</h3>
+            <ul>
+                <li><strong>Grafo Conectado:</strong> Existe un camino entre cualquier par de nodos.</li>
+                <li><strong>Grafo Desconectado:</strong> Hay al menos dos nodos entre los que no existe camino alguno.</li>
+            </ul>
+
+            <h2>📊 Comparativa de Tipos de Grafos</h2>
+            <div class="comparison">
+                <div class="comparison-item">
+                    <h4>No Dirigido</h4>
+                    <p><span class="advantage">✓</span> Simétrico</p>
+                    <p><span class="advantage">✓</span> Fácil de entender</p>
+                    <p><span class="disadvantage">✗</span> Menos flexible</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Dirigido</h4>
+                    <p><span class="advantage">✓</span> Flexible y versátil</p>
+                    <p><span class="advantage">✓</span> Representa flujos</p>
+                    <p><span class="disadvantage">✗</span> Más complejo</p>
+                </div>
+            </div>
+
+            <h2>💡 Aplicaciones Prácticas</h2>
+            <ul>
+                <li><strong>Redes Sociales:</strong> Representar amistades o conexiones entre usuarios.</li>
+                <li><strong>Google Maps:</strong> Modelar ciudades y carreteras con pesos representando distancias.</li>
+                <li><strong>Recomendaciones:</strong> Encontrar relaciones entre productos o usuarios.</li>
+                <li><strong>Biología:</strong> Modelar redes de interacción entre proteínas o genes.</li>
+                <li><strong>Sistemas Operativos:</strong> Detectar deadlocks (bloqueos) en procesos.</li>
+                <li><strong>Web Crawling:</strong> Navegar e indexar páginas web.</li>
+            </ul>
+
+            <h2>📈 Propiedades Importantes</h2>
+            <pre>
+Número de nodos: V (vertices)
+Número de aristas: E (edges)
+
+Para un grafo simple (sin auto-ciclos ni múltiples aristas):
+- Grafo no dirigido: E ≤ V(V-1)/2
+- Grafo dirigido: E ≤ V(V-1)
+
+Densidad = 2E/V(V-1)
+- Densidad cercana a 1: Grafo denso
+- Densidad cercana a 0: Grafo disperso
+            </pre>
+
+            <h2>🎓 Próximos Pasos</h2>
+            <p>Ahora que conoces los conceptos fundamentales de los grafos, estás listo para aprender cómo representarlos en memoria. En el próximo artículo, exploraremos las <strong>dos principales formas de representar grafos</strong>: la lista de adyacencia y la matriz de adyacencia.</p>
+
+            <a href="../index.html" class="back-link">← Volver al Inicio</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Blog Técnico sobre Estructura de Datos.</p>
+    </footer>
+</body>
+</html>

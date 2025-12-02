@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmos de Recorrido: BFS y DFS</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>⚡ Algoritmos Fundamentales de Recorrido</h1>
+        <p>Búsqueda en Amplitud (BFS) y Búsqueda en Profundidad (DFS)</p>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>Introducción</h2>
+            <p>Los algoritmos de recorrido son fundamentales en la teoría de grafos. Permiten explorar todos los nodos de un grafo de manera sistemática. Los dos algoritmos más importantes son <span class="highlight">BFS (Breadth-First Search)</span> y <span class="highlight">DFS (Depth-First Search)</span>.</p>
+
+            <h2>📊 Búsqueda en Amplitud (BFS)</h2>
+            <p>BFS es un algoritmo de recorrido que explora los nodos <strong>nivel por nivel</strong>, comenzando desde un nodo inicial. Utiliza una <strong>cola (queue)</strong> para mantener el orden de exploración.</p>
+
+            <h3>Características</h3>
+            <ul>
+                <li>Explora primero todos los nodos a distancia 1 del origen</li>
+                <li>Luego todos a distancia 2, y así sucesivamente</li>
+                <li>Utiliza una cola FIFO para el control</li>
+                <li>Encuentra el camino más corto en grafos no ponderados</li>
+            </ul>
+
+            <h3>Algoritmo Paso a Paso</h3>
+            <pre>
+1. Crear una cola e insertar el nodo inicial
+2. Marcar el nodo inicial como visitado
+3. Mientras la cola no esté vacía:
+   a. Extraer un nodo de la cola
+   b. Procesar el nodo
+   c. Para cada vecino no visitado:
+      - Marcar como visitado
+      - Insertar en la cola
+            </pre>
+
+            <h3>Implementación en Python</h3>
+            <pre>
+from collections import deque
+
+def bfs(grafo, inicio):
+    """
+    Búsqueda en Amplitud (BFS)
+    grafo: diccionario de adyacencia
+    inicio: nodo de inicio
+    """
+    visitados = set()
+    cola = deque([inicio])
+    visitados.add(inicio)
+    resultado = []
+    
+    while cola:
+        nodo = cola.popleft()
+        resultado.append(nodo)
+        
+        # Procesar todos los vecinos
+        for vecino in grafo[nodo]:
+            if vecino not in visitados:
+                visitados.add(vecino)
+                cola.append(vecino)
+    
+    return resultado
+
+# Ejemplo de uso
+grafo = {
+    'A': ['B', 'D'],
+    'B': ['A', 'C', 'D'],
+    'C': ['B', 'D', 'E'],
+    'D': ['A', 'B', 'C'],
+    'E': ['C']
+}
+
+print("BFS desde A:", bfs(grafo, 'A'))
+# Output: ['A', 'B', 'D', 'C', 'E']
+            </pre>
+
+            <h3>Ejemplo Visual</h3>
+            <div class="diagram">
+Grafo:
+    A --- B
+    |   / |
+    | /   |
+    D --- C --- E
+
+Orden de visita BFS desde A:
+Paso 1: Visitar A, encolar [B, D]
+Paso 2: Visitar B, encolar [C, D]
+Paso 3: Visitar D, encolar [C]
+Paso 4: Visitar C, encolar [E]
+Paso 5: Visitar E
+
+Resultado: A → B → D → C → E
+            </div>
+
+            <h3>Complejidad</h3>
+            <ul>
+                <li><strong>Tiempo:</strong> O(V + E) - Visita cada nodo y arista una vez</li>
+                <li><strong>Espacio:</strong> O(V) - Para la cola y el conjunto visitados</li>
+            </ul>
+
+            <h3>Aplicaciones de BFS</h3>
+            <ul>
+                <li>Encontrar el camino más corto en grafos no ponderados</li>
+                <li>Conectividad de grafos</li>
+                <li>Análisis de redes sociales</li>
+                <li>Web crawling</li>
+                <li>Puzzle solving (laberintos)</li>
+            </ul>
+
+            <h2>🔍 Búsqueda en Profundidad (DFS)</h2>
+            <p>DFS es un algoritmo de recorrido que explora tan <strong>profundo como sea posible</strong> antes de retroceder. Utiliza una <strong>pila (stack)</strong> o recursión para el control.</p>
+
+            <h3>Características</h3>
+            <ul>
+                <li>Explora un camino completamente antes de explorar otro</li>
+                <li>Utiliza una pila LIFO o recursión</li>
+                <li>Útil para detectar ciclos</li>
+                <li>Encuentra todos los nodos alcanzables</li>
+            </ul>
+
+            <h3>Algoritmo Paso a Paso</h3>
+            <pre>
+1. Crear una pila e insertar el nodo inicial
+2. Marcar el nodo inicial como visitado
+3. Mientras la pila no esté vacía:
+   a. Extraer un nodo de la pila
+   b. Procesar el nodo
+   c. Para cada vecino no visitado:
+      - Marcar como visitado
+      - Insertar en la pila
+
+O con recursión:
+1. Marcar nodo como visitado
+2. Procesar el nodo
+3. Para cada vecino no visitado:
+   - Llamar DFS recursivamente
+            </pre>
+
+            <h3>Implementación en Python (Iterativa)</h3>
+            <pre>
+def dfs_iterativo(grafo, inicio):
+    """
+    Búsqueda en Profundidad (DFS) - Versión iterativa
+    """
+    visitados = set()
+    pila = [inicio]
+    resultado = []
+    
+    while pila:
+        nodo = pila.pop()
+        
+        if nodo not in visitados:
+            visitados.add(nodo)
+            resultado.append(nodo)
+            
+            # Agregar vecinos a la pila (en orden inverso)
+            for vecino in reversed(grafo[nodo]):
+                if vecino not in visitados:
+                    pila.append(vecino)
+    
+    return resultado
+
+print("DFS desde A:", dfs_iterativo(grafo, 'A'))
+            </pre>
+
+            <h3>Implementación en Python (Recursiva)</h3>
+            <pre>
+def dfs_recursivo(grafo, nodo, visitados=None, resultado=None):
+    """
+    Búsqueda en Profundidad (DFS) - Versión recursiva
+    """
+    if visitados is None:
+        visitados = set()
+    if resultado is None:
+        resultado = []
+    
+    visitados.add(nodo)
+    resultado.append(nodo)
+    
+    for vecino in grafo[nodo]:
+        if vecino not in visitados:
+            dfs_recursivo(grafo, vecino, visitados, resultado)
+    
+    return resultado
+
+print("DFS recursivo desde A:", dfs_recursivo(grafo, 'A'))
+# Output: ['A', 'B', 'C', 'E', 'D'] o similar
+            </pre>
+
+            <h3>Ejemplo Visual</h3>
+            <div class="diagram">
+Grafo (mismo que BFS):
+    A --- B
+    |   / |
+    | /   |
+    D --- C --- E
+
+Orden de visita DFS desde A (recursivo):
+Paso 1: Visitar A
+Paso 2: Visitar B (primer vecino de A)
+Paso 3: Visitar C (primer vecino no visitado de B)
+Paso 4: Visitar E (primer vecino no visitado de C)
+Paso 5: Retroceder a C, luego a B, D (vecino de C)
+Paso 6: Visitar D
+
+Resultado: A → B → C → E → D
+            </div>
+
+            <h3>Complejidad</h3>
+            <ul>
+                <li><strong>Tiempo:</strong> O(V + E) - Igual que BFS</li>
+                <li><strong>Espacio:</strong> O(V) - Para la pila o recursión</li>
+            </ul>
+
+            <h3>Aplicaciones de DFS</h3>
+            <ul>
+                <li>Detectar ciclos en grafos</li>
+                <li>Ordenamiento topológico</li>
+                <li>Encontrar componentes conexas</li>
+                <li>Resolver laberintos</li>
+                <li>Análisis de conectividad fuerte</li>
+            </ul>
+
+            <h2>📈 Comparativa: BFS vs DFS</h2>
+            <div class="comparison">
+                <div class="comparison-item">
+                    <h4>BFS (Amplitud)</h4>
+                    <p><strong>Estructura:</strong> Cola (FIFO)</p>
+                    <p><strong>Exploración:</strong> Nivel por nivel</p>
+                    <p><strong>Camino más corto:</strong> ✓ Sí (no ponderado)</p>
+                    <p><strong>Memoria:</strong> Puede ser alta</p>
+                    <p><strong>Uso:</strong> Grafos anchos</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>DFS (Profundidad)</h4>
+                    <p><strong>Estructura:</strong> Pila (LIFO)</p>
+                    <p><strong>Exploración:</strong> Camino completo primero</p>
+                    <p><strong>Ciclos:</strong> ✓ Detecta bien</p>
+                    <p><strong>Memoria:</strong> Generalmente más baja</p>
+                    <p><strong>Uso:</strong> Grafos profundos</p>
+                </div>
+            </div>
+
+            <h2>🎓 Resumen</h2>
+            <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                <tr style="background: rgba(0, 212, 255, 0.2); border-bottom: 2px solid #00d4ff;">
+                    <th style="padding: 10px; text-align: left;">Aspecto</th>
+                    <th style="padding: 10px; text-align: left;">BFS</th>
+                    <th style="padding: 10px; text-align: left;">DFS</th>
+                </tr>
+                <tr style="border-bottom: 1px solid #00d4ff;">
+                    <td style="padding: 10px;">Estructura de datos</td>
+                    <td style="padding: 10px;">Cola</td>
+                    <td style="padding: 10px;">Pila</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #00d4ff;">
+                    <td style="padding: 10px;">Orden de visita</td>
+                    <td style="padding: 10px;">Amplitud primero</td>
+                    <td style="padding: 10px;">Profundidad primero</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #00d4ff;">
+                    <td style="padding: 10px;">Camino más corto</td>
+                    <td style="padding: 10px;">✓ Sí</td>
+                    <td style="padding: 10px;">✗ No</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #00d4ff;">
+                    <td style="padding: 10px;">Detecta ciclos</td>
+                    <td style="padding: 10px;">✓ Sí</td>
+                    <td style="padding: 10px;">✓ Sí (mejor)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Complejidad espacial</td>
+                    <td style="padding: 10px;">O(V)</td>
+                    <td style="padding: 10px;">O(V)</td>
+                </tr>
+            </table>
+
+            <a href="../index.html" class="back-link">← Volver al Inicio</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Blog Técnico sobre Estructura de Datos.</p>
+    </footer>
+</body>
+</html>

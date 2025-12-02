@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Representación de Grafos</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>🔧 Representación de Grafos</h1>
+        <p>Lista de Adyacencia vs Matriz de Adyacencia</p>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>Introducción</h2>
+            <p>Existen dos formas principales de representar un grafo en la memoria de una computadora. Cada una tiene sus ventajas y desventajas dependiendo del tipo de operaciones que necesitemos realizar y la densidad del grafo.</p>
+
+            <h2>🔗 Lista de Adyacencia</h2>
+            <p>La <span class="highlight">lista de adyacencia</span> es una representación que almacena, para cada nodo, una lista de todos los nodos adyacentes a él. Es especialmente eficiente para grafos <strong>dispersos</strong> (con pocas aristas).</p>
+
+            <h3>Estructura</h3>
+            <pre>
+Grafo Original:
+    A --- B
+    |   / |
+    | /   |
+    D --- C --- E
+
+Lista de Adyacencia:
+A: [B, D]
+B: [A, C, D]
+C: [B, D, E]
+D: [A, B, C]
+E: [C]
+            </pre>
+
+            <h3>Implementación en Python</h3>
+            <pre>
+class GrafoListaAdyacencia:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.grafo = {i: [] for i in range(vertices)}
+    
+    def agregar_arista(self, u, v):
+        """Añade una arista entre u y v"""
+        self.grafo[u].append(v)
+        self.grafo[v].append(u)  # Para grafos no dirigidos
+    
+    def mostrar(self):
+        for nodo in self.grafo:
+            print(f"{nodo}: {self.grafo[nodo]}")
+
+# Uso:
+g = GrafoListaAdyacencia(5)
+g.agresar_arista(0, 1)  # A-B
+g.agresar_arista(0, 3)  # A-D
+g.mostrar()
+            </pre>
+
+            <h3>Ventajas</h3>
+            <ul>
+                <li><span class="advantage">✓</span> <strong>Eficiencia de espacio:</strong> O(V + E) - Ideal para grafos dispersos.</li>
+                <li><span class="advantage">✓</span> <strong>Recorrido eficiente:</strong> Fácil iterar sobre vecinos de un nodo.</li>
+                <li><span class="advantage">✓</span> <strong>Escalabilidad:</strong> Consume poco espacio para grafos grandes dispersos.</li>
+                <li><span class="advantage">✓</span> <strong>Implantación flexible:</strong> Puede usar diferentes estructuras (arrays, listas vinculadas).</li>
+            </ul>
+
+            <h3>Desventajas</h3>
+            <ul>
+                <li><span class="disadvantage">✗</span> <strong>Búsqueda de aristas:</strong> O(V) en el peor caso para verificar si existe arista entre dos nodos específicos.</li>
+                <li><span class="disadvantage">✗</span> <strong>Acceso directo limitado:</strong> No se puede acceder directamente al peso de una arista.</li>
+            </ul>
+
+            <h2>📊 Matriz de Adyacencia</h2>
+            <p>La <span class="highlight">matriz de adyacencia</span> es una representación que usa una matriz cuadrada donde cada celda [i][j] indica si existe una arista entre el nodo i y el nodo j. Es eficiente para grafos <strong>densos</strong> (con muchas aristas).</p>
+
+            <h3>Estructura</h3>
+            <pre>
+Grafo Original (mismo que arriba):
+    A(0) --- B(1)
+    |      / |
+    |    /   |
+    D(3)--- C(2) --- E(4)
+
+Matriz de Adyacencia:
+    0  1  2  3  4
+0 [ 0  1  0  1  0 ]  A
+1 [ 1  0  1  1  0 ]  B
+2 [ 0  1  0  1  1 ]  C
+3 [ 1  1  1  0  0 ]  D
+4 [ 0  0  1  0  0 ]  E
+            </pre>
+
+            <h3>Implementación en Python</h3>
+            <pre>
+class GrafoMatrizAdyacencia:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.grafo = [[0] * vertices for _ in range(vertices)]
+    
+    def agregar_arista(self, u, v):
+        """Añade una arista entre u y v"""
+        self.grafo[u][v] = 1
+        self.grafo[v][u] = 1  # Para grafos no dirigidos
+    
+    def existe_arista(self, u, v):
+        """Verifica si existe arista entre u y v"""
+        return self.grafo[u][v] == 1
+    
+    def mostrar(self):
+        for fila in self.grafo:
+            print(fila)
+
+# Uso:
+g = GrafoMatrizAdyacencia(5)
+g.agregar_arista(0, 1)  # A-B
+g.agregar_arista(0, 3)  # A-D
+print(g.existe_arista(0, 1))  # True
+g.mostrar()
+            </pre>
+
+            <h3>Ventajas</h3>
+            <ul>
+                <li><span class="advantage">✓</span> <strong>Búsqueda de aristas:</strong> O(1) - Verificar si existe arista es muy rápido.</li>
+                <li><span class="advantage">✓</span> <strong>Acceso directo:</strong> Se puede acceder directamente al peso de cualquier arista.</li>
+                <li><span class="advantage">✓</span> <strong>Simplicidad:</strong> Fácil de implementar y entender.</li>
+                <li><span class="advantage">✓</span> <strong>Operaciones matriciales:</strong> Permite usar algoritmos de álgebra lineal.</li>
+            </ul>
+
+            <h3>Desventajas</h3>
+            <ul>
+                <li><span class="disadvantage">✗</span> <strong>Eficiencia de espacio:</strong> O(V²) - Consume mucho espacio incluso para grafos dispersos.</li>
+                <li><span class="disadvantage">✗</span> <strong>Recorrido ineficiente:</strong> Para encontrar vecinos de un nodo se debe recorrer toda una fila.</li>
+                <li><span class="disadvantage">✗</span> <strong>Ineficiencia para grafos grandes:</strong> No práctica para grafos con millones de nodos.</li>
+            </ul>
+
+            <h2>📈 Comparativa Detallada</h2>
+            <div class="comparison">
+                <div class="comparison-item">
+                    <h4>Lista de Adyacencia</h4>
+                    <p><strong>Espacio:</strong> O(V + E)</p>
+                    <p><strong>Búsqueda de arista:</strong> O(V)</p>
+                    <p><strong>Mejor para:</strong> Grafos dispersos</p>
+                    <p><strong>Uso:</strong> Recorridos BFS/DFS, caminos más cortos</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Matriz de Adyacencia</h4>
+                    <p><strong>Espacio:</strong> O(V²)</p>
+                    <p><strong>Búsqueda de arista:</strong> O(1)</p>
+                    <p><strong>Mejor para:</strong> Grafos densos</p>
+                    <p><strong>Uso:</strong> Problemas que requieren acceso rápido a aristas</p>
+                </div>
+            </div>
+
+            <h2>🔄 Matriz Ponderada</h2>
+            <p>Para grafos con pesos, la matriz de adyacencia almacena el peso de la arista en lugar de solo 0 o 1:</p>
+            <pre>
+Grafo ponderado:
+    A --5-- B
+    |       |
+    3      8
+    |       |
+    D --2-- C --4-- E
+
+Matriz de Adyacencia Ponderada:
+    0  1  2  3  4
+0 [ 0  5  ∞  3  ∞ ]
+1 [ 5  0  8  ∞  ∞ ]
+2 [ ∞  8  0  2  4 ]
+3 [ 3  ∞  2  0  ∞ ]
+4 [ ∞  ∞  4  ∞  0 ]
+
+(∞ representa ausencia de arista)
+            </pre>
+
+            <h2>🎓 ¿Cuál Elegir?</h2>
+            <ul>
+                <li><strong>Usa Lista de Adyacencia si:</strong>
+                    <ul>
+                        <li>El grafo es disperso (pocas aristas)</li>
+                        <li>Necesitas recorrer vecinos frecuentemente</li>
+                        <li>Trabajas con grafos muy grandes</li>
+                        <li>Importa optimizar el uso de memoria</li>
+                    </ul>
+                </li>
+                <li><strong>Usa Matriz de Adyacencia si:</strong>
+                    <ul>
+                        <li>El grafo es denso (muchas aristas)</li>
+                        <li>Necesitas verificar aristas frecuentemente</li>
+                        <li>El grafo tiene pocos nodos</li>
+                        <li>Trabajas con algoritmos que requieren matriz</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <a href="../index.html" class="back-link">← Volver al Inicio</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Blog Técnico sobre Estructura de Datos.</p>
+    </footer>
+</body>
+</html>

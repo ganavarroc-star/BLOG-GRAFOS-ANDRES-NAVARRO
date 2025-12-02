@@ -1,0 +1,22 @@
+# Blog Técnico: Estructura de Datos Grafos
+# Dependencias del Proyecto
+
+# El proyecto utiliza principalmente librerías estándar de Python (3.7+)
+# No hay dependencias externas requeridas para ejecutar los ejemplos
+
+# Sin embargo, para desarrollo y testing opcional:
+
+# Testing
+pytest>=6.0  # Framework de testing (opcional)
+pytest-cov>=2.10  # Coverage para pytest (opcional)
+
+# Code Quality
+black>=20.8b1  # Formateador de código (opcional)
+flake8>=3.8  # Linter (opcional)
+pylint>=2.6  # Análisis de código (opcional)
+
+# Documentation
+sphinx>=3.0  # Generador de documentación (opcional)
+
+# Note: El proyecto es principalmente HTML + CSS + Python
+# No requiere frameworks web para funcionar como blog estático

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cola (Queue) - Estructura de Datos</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header>
+    <h1>📋 Cola (Queue) - FIFO</h1>
+    <p>Estructura de Datos Fundamental: First In, First Out</p>
+</header>
+
+<div class="container">
+    <div class="content">
+        <h2>¿Qué es una Cola?</h2>
+        <p>Una <span class="highlight">cola (queue)</span> es una estructura de datos lineal que sigue el principio <strong>FIFO (First In, First Out)</strong>. El primer elemento que entra es el primero en salir, exactamente como una fila de personas esperando en un banco o supermercado.</p>
+
+        <h3>Características Principales</h3>
+        <ul>
+            <li><strong>FIFO:</strong> Primer elemento insertado es el primero en ser extraído</li>
+            <li><strong>Operación de inserción:</strong> Se realiza por el final (rear/back)</li>
+            <li><strong>Operación de extracción:</strong> Se realiza por el inicio (front/head)</li>
+            <li><strong>Lineal:</strong> Los elementos se organizan en una secuencia</li>
+            <li><strong>Dinámica:</strong> Puede crecer o reducirse dinámicamente</li>
+        </ul>
+
+        <h3>Representación Visual</h3>
+        <div class="diagram">
+Cola inicial:
+[ ][ ][ ][ ][ ]
+
+Después de insertar A, B, C:
+[A][B][C][ ][ ]
+ ↑         ↑
+inicio   final
+
+Después de extraer A:
+[ ][B][C][ ][ ]
+   ↑     ↑
+inicio final
+
+Después de insertar D, E:
+[ ][B][C][D][E]
+   ↑        ↑
+inicio    final
+        </div>
+
+        <h2>🔄 Operaciones Principales</h2>
+
+        <h3>1. Enqueue (Insertar)</h3>
+        <p>Añade un elemento al final de la cola.</p>
+        <pre>
+def enqueue(self, elemento):
+    """Inserta un elemento al final"""
+    self.elementos.append(elemento)
+        </pre>
+        <p><strong>Complejidad:</strong> O(1)</p>
+
+        <h3>2. Dequeue (Extraer)</h3>
+        <p>Extrae y retorna el primer elemento de la cola.</p>
+        <pre>
+def dequeue(self):
+    """Extrae el primer elemento"""
+    if not self.esta_vacia():
+        return self.elementos.pop(0)
+    return None
+        </pre>
+        <p><strong>Complejidad:</strong> O(n) en listas, O(1) en colas con punteros</p>
+
+        <h3>3. Front (Frente)</h3>
+        <p>Retorna el primer elemento sin extraerlo.</p>
+        <pre>
+def front(self):
+    """Retorna el primer elemento sin eliminarlo"""
+    if not self.esta_vacia():
+        return self.elementos[0]
+    return None
+        </pre>
+        <p><strong>Complejidad:</strong> O(1)</p>
+
+        <h3>4. Rear (Final)</h3>
+        <p>Retorna el último elemento sin extraerlo.</p>
+        <pre>
+def rear(self):
+    """Retorna el último elemento"""
+    if not self.esta_vacia():
+        return self.elementos[-1]
+    return None
+        </pre>
+        <p><strong>Complejidad:</strong> O(1)</p>
+
+        <h3>5. Is Empty (Está Vacía)</h3>
+        <p>Verifica si la cola está vacía.</p>
+        <pre>
+def esta_vacia(self):
+    """Retorna True si está vacía"""
+    return len(self.elementos) == 0
+        </pre>
+        <p><strong>Complejidad:</strong> O(1)</p>
+
+        <h3>6. Size (Tamaño)</h3>
+        <p>Retorna el número de elementos en la cola.</p>
+        <pre>
+def tamaño(self):
+    """Retorna el número de elementos"""
+    return len(self.elementos)
+        </pre>
+        <p><strong>Complejidad:</strong> O(1)</p>
+
+        <h2>📝 Implementación Completa en Python</h2>
+        <pre>
+class Cola:
+    """Implementación de una Cola (Queue) FIFO"""
+    
+    def __init__(self):
+        """Inicializa una cola vacía"""
+        self.elementos = []
+    
+    def enqueue(self, elemento):
+        """Añade un elemento al final"""
+        self.elementos.append(elemento)
+    
+    def dequeue(self):
+        """Elimina y retorna el primer elemento"""
+        if not self.esta_vacia():
+            return self.elementos.pop(0)
+        return None
+    
+    def esta_vacia(self):
+        """Verifica si la cola está vacía"""
+        return len(self.elementos) == 0
+    
+    def tamaño(self):
+        """Retorna el número de elementos"""
+        return len(self.elementos)
+    
+    def front(self):
+        """Retorna el primer elemento sin eliminarlo"""
+        if not self.esta_vacia():
+            return self.elementos[0]
+        return None
+    
+    def rear(self):
+        """Retorna el último elemento"""
+        if not self.esta_vacia():
+            return self.elementos[-1]
+        return None
+    
+    def mostrar(self):
+        """Muestra todos los elementos"""
+        if self.esta_vacia():
+            print("Cola vacía: []")
+        else:
+            print(f"Cola: {self.elementos}")
+
+# Ejemplo de uso
+cola = Cola()
+cola.enqueue("Cliente 1")
+cola.enqueue("Cliente 2")
+cola.enqueue("Cliente 3")
+
+cola.mostrar()  # Cola: ['Cliente 1', 'Cliente 2', 'Cliente 3']
+print(f"Primero: {cola.front()}")  # Cliente 1
+print(f"Último: {cola.rear()}")  # Cliente 3
+print(f"Tamaño: {cola.tamaño()}")  # 3
+
+cliente = cola.dequeue()
+print(f"Atendido: {cliente}")  # Cliente 1
+cola.mostrar()  # Cola: ['Cliente 2', 'Cliente 3']
+        </pre>
+
+        <h2>🚀 Optimización con collections.deque</h2>
+        <p>Para operaciones más eficientes, Python proporciona <code>deque</code> (double-ended queue):</p>
+        <pre>
+from collections import deque
+
+# Cola optimizada con deque
+cola = deque()
+
+# Enqueue - O(1)
+cola.append("A")
+cola.append("B")
+cola.append("C")
+
+# Dequeue - O(1)
+primero = cola.popleft()  # "A"
+
+print(list(cola))  # ['B', 'C']
+        </pre>
+        <p><span class="advantage">✓</span> <code>deque</code> es mucho más eficiente para operaciones de cola, con O(1) en ambos extremos.</p>
+
+        <h2>💼 Aplicaciones Prácticas</h2>
+
+        <h3>1. Sistemas de Atención al Público</h3>
+        <pre>
+# Banco o supermercado
+cola_banco = Cola()
+
+# Clientes llegando
+for cliente in ["Juan", "María", "Pedro", "Ana"]:
+    cola_banco.enqueue(cliente)
+
+# Atendimiento
+while not cola_banco.esta_vacia():
+    cliente = cola_banco.dequeue()
+    print(f"Atendiendo a {cliente}")
+        </pre>
+
+        <h3>2. Cola de Impresión</h3>
+        <pre>
+cola_impresion = Cola()
+
+documentos = ["doc1.pdf", "doc2.pdf", "doc3.pdf"]
+for doc in documentos:
+    cola_impresion.enqueue(doc)
+
+# Impresora procesa uno a uno
+while not cola_impresion.esta_vacia():
+    doc = cola_impresion.dequeue()
+    print(f"Imprimiendo {doc}")
+        </pre>
+
+        <h3>3. Procesamiento de Tareas</h3>
+        <pre>
+from collections import deque
+import time
+
+cola_tareas = deque()
+
+# Agregar tareas
+tareas = ["Tarea 1", "Tarea 2", "Tarea 3", "Tarea 4"]
+for tarea in tareas:
+    cola_tareas.append(tarea)
+
+# Procesar tareas
+while cola_tareas:
+    tarea = cola_tareas.popleft()
+    print(f"Procesando: {tarea}")
+    time.sleep(1)  # Simular trabajo
+        </pre>
+
+        <h3>4. Búsqueda BFS en Grafos</h3>
+        <p>Las colas son esenciales para el algoritmo BFS:</p>
+        <pre>
+def bfs(grafo, inicio):
+    """Búsqueda en Amplitud usando Cola"""
+    visitados = set()
+    cola = deque([inicio])
+    visitados.add(inicio)
+    
+    while cola:
+        nodo = cola.popleft()
+        print(f"Visitando: {nodo}")
+        
+        for vecino in grafo[nodo]:
+            if vecino not in visitados:
+                visitados.add(vecino)
+                cola.append(vecino)
+        </pre>
+
+        <h2>📊 Cola con Prioridad</h2>
+        <p>Variante de cola donde los elementos se extraen según su prioridad, no por orden de llegada:</p>
+        <pre>
+import heapq
+
+class ColaConPrioridad:
+    """Cola donde se atienden primero elementos de mayor prioridad"""
+    
+    def __init__(self):
+        self.elementos = []
+    
+    def enqueue(self, elemento, prioridad=0):
+        """Menor número = mayor prioridad"""
+        heapq.heappush(self.elementos, (prioridad, elemento))
+    
+    def dequeue(self):
+        """Extrae el elemento de mayor prioridad"""
+        if self.elementos:
+            return heapq.heappop(self.elementos)[1]
+        return None
+
+# Ejemplo: Urgencias en hospital
+urgencias = ColaConPrioridad()
+urgencias.enqueue("Herida leve", 3)
+urgencias.enqueue("Infarto", 0)
+urgencias.enqueue("Fractura", 2)
+
+# Se atienden en orden de urgencia, no de llegada
+print(urgencias.dequeue())  # "Infarto" (prioridad 0)
+print(urgencias.dequeue())  # "Fractura" (prioridad 2)
+print(urgencias.dequeue())  # "Herida leve" (prioridad 3)
+        </pre>
+
+        <h2>⚖️ Ventajas y Desventajas</h2>
+        <div class="comparison">
+            <div class="comparison-item">
+                <h4>Ventajas</h4>
+                <p><span class="advantage">✓</span> FIFO justo y predecible</p>
+                <p><span class="advantage">✓</span> Operaciones eficientes O(1)</p>
+                <p><span class="advantage">✓</span> Fácil de implementar</p>
+                <p><span class="advantage">✓</span> Ampliamente utilizada</p>
+            </div>
+            <div class="comparison-item">
+                <h4>Desventajas</h4>
+                <p><span class="disadvantage">✗</span> No acceso a posiciones intermedias</p>
+                <p><span class="disadvantage">✗</span> No es óptima para búsquedas</p>
+                <p><span class="disadvantage">✗</span> Requiere gestión de memoria dinámica</p>
+            </div>
+        </div>
+
+        <h2>📈 Comparativa: Cola vs Pila vs Lista</h2>
+        <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background: rgba(0, 212, 255, 0.2); border-bottom: 2px solid #00d4ff;">
+                <th style="padding: 10px; text-align: left;">Característica</th>
+                <th style="padding: 10px; text-align: left;">Cola (FIFO)</th>
+                <th style="padding: 10px; text-align: left;">Pila (LIFO)</th>
+                <th style="padding: 10px; text-align: left;">Lista</th>
+            </tr>
+            <tr style="border-bottom: 1px solid #00d4ff;">
+                <td style="padding: 10px;">Inserción</td>
+                <td style="padding: 10px;">Final</td>
+                <td style="padding: 10px;">Final</td>
+                <td style="padding: 10px;">Cualquier lugar</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #00d4ff;">
+                <td style="padding: 10px;">Extracción</td>
+                <td style="padding: 10px;">Inicio</td>
+                <td style="padding: 10px;">Final</td>
+                <td style="padding: 10px;">Cualquier lugar</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #00d4ff;">
+                <td style="padding: 10px;">Orden</td>
+                <td style="padding: 10px;">FIFO</td>
+                <td style="padding: 10px;">LIFO</td>
+                <td style="padding: 10px;">Libre</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;">Complejidad O(1)</td>
+                <td style="padding: 10px;">✓</td>
+                <td style="padding: 10px;">✓</td>
+                <td style="padding: 10px;">✓</td>
+            </tr>
+        </table>
+
+        <h2>🎓 Conclusión</h2>
+        <p>Las colas son una estructura fundamental en programación que modela perfectamente los procesos donde el orden importa y se sigue el principio FIFO. Desde sistemas de colas en la vida real hasta algoritmos avanzados como BFS, las colas son indispensables en la informática moderna.</p>
+
+        <a href="../index.html" class="back-link">← Volver al Inicio</a>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Blog Técnico sobre Estructura de Datos.</p>
+</footer>
+
+</body>
+</html>
